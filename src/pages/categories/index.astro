@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { filterDrafts, slugify } from "../../utils/helpers";
+
+const allPosts = filterDrafts(await getCollection("blog"));
+const categoryMap = new Map<string, number>();
+for (const post of allPosts) {
+  const cat = post.data.category;
+  categoryMap.set(cat, (categoryMap.get(cat) || 0) + 1);
+}
+const categories = [...categoryMap.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title="Categories" description="Browse all blog categories on CS Blog.">
+  <section class="categories-page">
+    <h1>Categories</h1>
+    <ul class="categories-list">
+      {categories.map(([name, count]) => (
+        <li>
+          <a href={`/categories/${slugify(name)}`}>
+            {name} <span class="count">({count})</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .categories-page {
+    padding: var(--space-8) 0;
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: var(--space-6);
+    }
+  }
+
+  .categories-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .categories-list li a {
+    display: block;
+    padding: var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-weight: 500;
+    color: var(--text);
+
+    &:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  }
+
+  .count {
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+</style>

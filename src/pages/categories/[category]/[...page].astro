@@ -1,0 +1,58 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PostCard from "../../../components/PostCard.astro";
+import Pagination from "../../../components/Pagination.astro";
+import { sortByDate, filterDrafts, slugify } from "../../../utils/helpers";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const allPosts = sortByDate(filterDrafts(await getCollection("blog")));
+  const categories = [...new Set(allPosts.map((p) => p.data.category))];
+
+  return categories.flatMap((category) => {
+    const filtered = allPosts.filter((p) => p.data.category === category);
+    return paginate(filtered, {
+      params: { category: slugify(category) },
+      props: { categoryName: category },
+      pageSize: 10,
+    });
+  });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const { categoryName } = Astro.props;
+---
+
+<BaseLayout title={`Category: ${categoryName}`} description={`Posts in the ${categoryName} category.`}>
+  <section class="category-page">
+    <h1>Category: {categoryName}</h1>
+    {page.data.map((post: any) => (
+      <PostCard
+        title={post.data.title}
+        slug={post.id}
+        description={post.data.description}
+        pubDate={post.data.pubDate}
+        category={post.data.category}
+        tags={post.data.tags}
+      />
+    ))}
+    <Pagination
+      prevUrl={page.url.prev}
+      nextUrl={page.url.next}
+      currentPage={page.currentPage}
+      lastPage={page.lastPage}
+    />
+  </section>
+</BaseLayout>
+
+<style>
+  .category-page {
+    padding: var(--space-8) 0;
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: var(--space-2);
+    }
+  }
+</style>

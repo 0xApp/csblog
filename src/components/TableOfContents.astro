@@ -1,0 +1,70 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+const filtered = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{filtered.length > 0 && (
+  <nav class="toc" aria-label="Table of contents">
+    <h2 class="toc__title">On this page</h2>
+    <ul class="toc__list">
+      {filtered.map((heading) => (
+        <li class={heading.depth === 3 ? "toc__item toc__item--nested" : "toc__item"}>
+          <a href={`#${heading.slug}`}>{heading.text}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<style>
+  .toc {
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    padding-left: var(--space-6);
+    border-left: 1px solid var(--border);
+  }
+
+  .toc__title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-3);
+  }
+
+  .toc__list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .toc__item {
+    margin-bottom: var(--space-2);
+
+    a {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      line-height: 1.4;
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
+  }
+
+  .toc__item--nested {
+    padding-left: var(--space-4);
+  }
+</style>

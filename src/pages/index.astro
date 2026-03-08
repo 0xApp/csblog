@@ -1,0 +1,72 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "../components/PostCard.astro";
+import { sortByDate, filterDrafts } from "../utils/helpers";
+
+const allPosts = await getCollection("blog");
+const posts = sortByDate(filterDrafts(allPosts)).slice(0, 5);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "CS Blog",
+  url: Astro.site?.href,
+};
+---
+
+<BaseLayout
+  title="Home"
+  description="CS Blog — Articles on computer science, programming, and software engineering."
+  jsonLd={jsonLd}
+>
+  <section class="hero">
+    <h1>CS Blog</h1>
+    <p>Articles on software engineering, .NET, AI and AI-driven development.</p>
+  </section>
+
+  <section>
+    <h2 class="section-title">Latest Posts</h2>
+    {posts.map((post) => (
+      <PostCard
+        title={post.data.title}
+        slug={post.id}
+        description={post.data.description}
+        pubDate={post.data.pubDate}
+        category={post.data.category}
+        tags={post.data.tags}
+      />
+    ))}
+    <div class="view-all">
+      <a href="/blog">View all posts &rarr;</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding: var(--space-12) 0 var(--space-8);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--space-8);
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-2);
+    }
+
+    p {
+      color: var(--text-secondary);
+      font-size: 1.15rem;
+    }
+  }
+
+  .section-title {
+    font-size: 1.35rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .view-all {
+    padding: var(--space-6) 0;
+    font-weight: 500;
+  }
+</style>

@@ -1,0 +1,69 @@
+---
+---
+
+<section class="giscus-wrapper" aria-label="Comments">
+  <h2>Comments</h2>
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="0xApp/csblog"
+    data-repo-id="R_kgDORhhiNw"
+    data-category="Posts"
+    data-category-id="DIC_kwDORhhiN84C38yu"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+  ></script>
+</section>
+
+<script is:inline>
+  function setGiscusTheme(theme) {
+    const iframe = document.querySelector("iframe.giscus-frame");
+    if (!iframe) return;
+    iframe.contentWindow.postMessage(
+      { giscus: { setConfig: { theme: theme } } },
+      "https://giscus.app"
+    );
+  }
+
+  // Set initial Giscus script theme before it loads
+  const giscusScript = document.querySelector('script[src="https://giscus.app/client.js"]');
+  if (giscusScript) {
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+    giscusScript.setAttribute("data-theme", currentTheme);
+  }
+
+  // Watch for theme changes
+  const observer = new MutationObserver(function () {
+    const theme = document.documentElement.getAttribute("data-theme") || "light";
+    setGiscusTheme(theme);
+  });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  // Also set on giscus load
+  window.addEventListener("message", function (event) {
+    if (event.origin !== "https://giscus.app") return;
+    if (!(typeof event.data === "object" && event.data.giscus)) return;
+    const theme = document.documentElement.getAttribute("data-theme") || "light";
+    setGiscusTheme(theme);
+  });
+</script>
+
+<style>
+  .giscus-wrapper {
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--border);
+
+    h2 {
+      font-size: 1.25rem;
+      margin-bottom: var(--space-4);
+    }
+  }
+</style>

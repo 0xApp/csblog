@@ -1,0 +1,60 @@
+---
+import { SEO as AstroSEO } from "astro-seo";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  article?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  tags?: string[];
+}
+
+const {
+  title,
+  description,
+  image,
+  article = false,
+  publishedTime,
+  modifiedTime,
+  author,
+  tags,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
+const siteName = "CS Blog";
+---
+
+<AstroSEO
+  title={`${title} | ${siteName}`}
+  description={description}
+  canonical={canonicalURL.href}
+  openGraph={{
+    basic: {
+      title,
+      type: article ? "article" : "website",
+      image: ogImage ?? "",
+    },
+    optional: {
+      description,
+      siteName,
+    },
+    ...(article && {
+      article: {
+        publishedTime,
+        modifiedTime,
+        authors: author ? [author] : undefined,
+        tags,
+      },
+    }),
+  }}
+  twitter={{
+    card: image ? "summary_large_image" : "summary",
+    title,
+    description,
+  }}
+/>
+<link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />

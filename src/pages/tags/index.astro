@@ -1,0 +1,61 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { filterDrafts, slugify } from "../../utils/helpers";
+
+const allPosts = filterDrafts(await getCollection("blog"));
+const tagMap = new Map<string, number>();
+for (const post of allPosts) {
+  for (const tag of post.data.tags) {
+    tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
+  }
+}
+const tags = [...tagMap.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title="Tags" description="Browse all tags on CS Blog.">
+  <section class="tags-page">
+    <h1>Tags</h1>
+    <div class="tag-grid">
+      {tags.map(([name, count]) => (
+        <a href={`/tags/${slugify(name)}`} class="tag-pill">
+          {name} <span class="count">({count})</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .tags-page {
+    padding: var(--space-8) 0;
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: var(--space-6);
+    }
+  }
+
+  .tag-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .tag-pill {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    padding: var(--space-2) var(--space-4);
+    border-radius: 999px;
+    font-weight: 500;
+    font-size: 0.9rem;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .count {
+    opacity: 0.7;
+  }
+</style>
