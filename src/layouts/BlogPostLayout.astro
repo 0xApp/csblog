@@ -4,6 +4,7 @@ import FormattedDate from "../components/FormattedDate.astro";
 import TagList from "../components/TagList.astro";
 import TableOfContents from "../components/TableOfContents.astro";
 import Giscus from "../components/Giscus.astro";
+import CopyCode from "../components/CopyCode.astro";
 import { slugify } from "../utils/helpers";
 
 interface Props {
@@ -83,6 +84,7 @@ const jsonLd = {
       <div class="prose">
         <slot />
       </div>
+      <CopyCode />
       <Giscus />
     </article>
     <aside class="post-sidebar">

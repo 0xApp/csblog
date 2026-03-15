@@ -14,7 +14,15 @@
       "Bash(cp:*)",
       "Bash(mkdir:*)",
       "Bash(npx astro:*)",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "WebFetch(domain:devblogs.microsoft.com)",
+      "WebFetch(domain:pixabay.com)",
+      "WebFetch(domain:survey.stackoverflow.co)",
+      "WebFetch(domain:www.mcpevals.io)",
+      "WebFetch(domain:microsoft.github.io)",
+      "WebFetch(domain:unsplash.com)",
+      "WebFetch(domain:www.pexels.com)",
+      "WebFetch(domain:guptadeepak.com)"
     ]
   }
 }

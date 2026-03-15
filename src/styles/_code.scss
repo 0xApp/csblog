@@ -1,3 +1,47 @@
+.code-block {
+  position: relative;
+
+  &:hover .copy-btn {
+    opacity: 1;
+  }
+}
+
+.copy-btn {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+  z-index: 1;
+  line-height: 1;
+
+  &:hover {
+    background: var(--border);
+    color: var(--text);
+  }
+
+  &.copied {
+    color: #2ea043;
+    border-color: #2ea043;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
 .astro-code {
   font-family: var(--font-mono);
   font-size: 0.875rem;
