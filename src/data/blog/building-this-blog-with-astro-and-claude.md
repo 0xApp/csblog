@@ -1,7 +1,7 @@
 ---
 title: "How I Built This Blog with Astro and Claude"
 description: "A behind-the-scenes look at building CS Blog using Astro 5, SCSS, and Claude Code — including the bugs Claude introduced and how it fixed them."
-pubDate: 2026-03-08
+pubDate: 2026-03-08T19:47:30Z
 author: "Parimal Raj"
 category: "Web Development"
 tags: ["astro", "claude", "claude-code", "ai-development"]
