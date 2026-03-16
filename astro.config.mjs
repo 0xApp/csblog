@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import partytown from "@astrojs/partytown";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { remarkReadingTime } from "./src/utils/reading-time.mjs";
@@ -45,6 +46,7 @@ export default defineConfig({
   },
   integrations: [
     mdx(),
+    partytown({ config: { forward: ["dataLayer.push"] } }),
     sitemap({
       serialize(item) {
         // Add lastmod to blog post URLs from frontmatter dates
