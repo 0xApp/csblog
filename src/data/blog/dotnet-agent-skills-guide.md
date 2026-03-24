@@ -1,7 +1,7 @@
 ---
 title: "What Are .NET Agent Skills and Why Should You Adopt Them?"
 description: "Microsoft's dotnet/skills gives AI agents deep .NET expertise — 7 plugins for migrations, debugging, and AI."
-pubDate: 2026-03-15
+pubDate: 2026-03-15T19:47:30Z
 author: "Parimal Raj"
 category: "AI Development"
 tags: ["dotnet-skills", "claude-dotnet-skills", "ai-coding", "dotnet", "agent-skills", "claude-code", "copilot", "copilot-cli"]

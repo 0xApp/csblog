@@ -22,7 +22,9 @@
       "WebFetch(domain:microsoft.github.io)",
       "WebFetch(domain:unsplash.com)",
       "WebFetch(domain:www.pexels.com)",
-      "WebFetch(domain:guptadeepak.com)"
+      "WebFetch(domain:guptadeepak.com)",
+      "Bash(git:*)",
+      "Bash(head:*)"
     ]
   }
 }
